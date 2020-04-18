@@ -1,0 +1,4 @@
+# ignore folder named 'node_modules'
+node_modules
+.DS_Store
+.gitattributes
