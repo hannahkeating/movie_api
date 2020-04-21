@@ -4,6 +4,9 @@ const express = require('express'),
   morgan = require('morgan');
 const app = express();
 
+//express.static
+//"documentation.html" file from public folder
+app.use(express.static('public'));
 //Morgan middleware function to log all requests
 app.use(morgan('common'));
 
@@ -14,10 +17,6 @@ app.get('/', function(req, res) {
 app.get('/movies', function(req, res) {
   res.json(movies)
 });
-
-//express.static
-//"documentation.html" file from public folder
-app.use(express.static('public'));
 
 //error handling middleware
 app.use((err, req, res, next) => {
