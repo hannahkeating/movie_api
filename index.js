@@ -145,6 +145,7 @@ app.get("/movies/director/:Name", (req, res) => {
     })
   );
 });
+
 app.get("/movies/genres/:Name", (req, res) => {
   res.json(
     movies.find((movie) => {
@@ -152,14 +153,15 @@ app.get("/movies/genres/:Name", (req, res) => {
     })
   );
 });
-
 //User endpoints
 
-app.get("/users", function (req, res) {
-  res.json(users);
+//adds user
+app.post("/users", (req, res) => {
+  res.status(500).send("User added!");
 });
 
-app.get("/users/:Username", (req, res) => {
+//updates user information
+app.put("/users/:Username", (req, res) => {
   res.json(
     users.find((user) => {
       return user.Username === req.params.Username;
@@ -167,12 +169,19 @@ app.get("/users/:Username", (req, res) => {
   );
 });
 
-app.get("/users/:Email", (req, res) => {
-  res.json(
-    users.find((user) => {
-      return user.Email === req.params.Email;
-    })
-  );
+//allows user to add movie to favorites
+app.post("users/:Username/favorites", (req, res) => {
+  res.status(500).send("Succesfully added movie to favorites!");
+});
+
+//allows user to remove movie from favorites
+app.delete("users/:Username/favorites", (req, res) => {
+  res.status(500).send("Successfully removed movie from favorites.");
+});
+
+//allows user to deregister
+app.delete("/users/:Email", (req, res) => {
+  res.status(500).send("User Deleted.");
 });
 
 app.get("/documentation", (req, res) => {

@@ -37,12 +37,59 @@
           <td>None</td>
           <td>A JSON object holding data about a single movie, containing
             the title, description, genre, director, and image.
-            Example: <p style="color:blue">
-              {
-              "Genre"
-              }
-            </p>
           </td>
+        </tr>
+        <tr>
+          <td>Get title by director name</td>
+          <td>/movies/director/:Name</td>
+          <td>Get</td>
+          <td>None</td>
+          <td> A JSON object holding data about a director
+            including a short biography, birth, and date year.</td>
+        </tr>
+        <tr>
+          <td>Get movie by genre</td>
+          <td>/movies/genres/:Name</td>
+          <td>GET</td>
+          <td>None</td>
+          <td> A JSON object containing information on any movie with the
+            searched genre</td>
+        </tr>
+        <tr>
+          <td>Add user</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>None</td>
+          <td>A status message saying, "User Added!"</td>
+        </tr>
+        <tr>
+          <td>Update user information</td>
+          <td>/users/:Username</td>
+          <td>PUT</td>
+          <td>None</td>
+          <td> A JSON object with updated User information</td>
+        </tr>
+        <tr>
+          <td>Allow users to add movies to "favorites"</td>
+          <td>users/:Username/favorites</td>
+          <td>POST</td>
+          <td>None</td>
+          <td>A status message saying, "Succesfully added movie to favorites!"</td>
+        </tr>
+        <tr>
+          <td>Allow users to remove movie from favorites</td>
+          <td>users/:Username/favorites</td>
+          <td>Delete</td>
+          <td>None</td>
+          <td>A status message saying, "Succesfully deleted movie from
+            favorites."</td>
+        </tr>
+        <tr>
+          <td>Allow users to deregister</td>
+          <td>users/:Email</td>
+          <td>Delete</td>
+          <td>None</td>
+          <td>A status message saying, "User deleted."</td>
         </tr>
       </tbody>
     </table>
