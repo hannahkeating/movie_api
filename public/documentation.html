@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="public/styles.css">
-    <title>Flix Fix</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="public/styles.css" />
+    <title>My Flix</title>
   </head>
   <body>
-    <h1>Objective</h1>
+    <h1>My Flix</h1>
     <p>
       This application will provide users with access to information about
       different movies, directors, and genres. Users can sign up, update their
       personal information, and create a list of thier favorite movies.
     </p>
+    <br />
+    <br />
     <table class="requests-table" style="width: 1000px;">
       <thead>
         <tr>
@@ -35,8 +37,25 @@
           <td>/movies/:Title</td>
           <td>GET</td>
           <td>None</td>
-          <td>A JSON object holding data about a single movie, containing
-            the title, description, genre, director, and image.
+          <td>
+            A JSON object holding data about a single movie, containing the
+            title, description, genre, director, and image. Example:
+            <p style="color: blue;">
+              { "_id" : ObjectId("5f35a819cdb8ac3f7dc2cef5"), "Title" : "Joker",
+              "Description" : "In Gotham City, mentally troubled comedian Arthur
+              Fleck is disregarded and mistreated by society. He then embarks on
+              a downward spiral of revolution and bloody crime. This path brings
+              him face-to-face with his alter-ego: the Joker.", "Genre" : {
+              "Name" : "Drama", "Description" : "Drama Films are serious
+              presentations or stories with settings or life situations that
+              portray realistic characters in conflict with either themselves,
+              others, or forces of nature." }, "Director" : { "Name" : "Todd
+              Phillips", "Bio" : "Todd Phillips is an American film director,
+              producer, screenwriter, and actor.", "Birth" : "1970-12-20" },
+              "ImagePath" :
+              "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
+              "Featured" : true }
+            </p>
           </td>
         </tr>
         <tr>
@@ -44,49 +63,123 @@
           <td>/movies/director/:Name</td>
           <td>Get</td>
           <td>None</td>
-          <td> A JSON object holding data about a director
-            including a short biography, birth, and date year.</td>
+          <td>
+            A JSON object holding data about a director including a short
+            biography, birth, and date year. Example:
+            <p style="color: blue;">
+              { "_id" : ObjectId("5f35a559cdb8ac3f7dc2cef3"), "Title" : "Silence
+              of the Lambs", "Description" : "A young FBI cadet must receive the
+              help of an incarcerated and manipulative cannibal killer.",
+              "Genre" : { "Name" : "Thriller", "Description" : "Thriller film,
+              also known as suspense film or suspense thriller, is a broad film
+              genre that involves excitement and suspense in the audience." },
+              "Director" : { "Name" : "Jonathan Demme", "Bio" : "Robert Jonathan
+              Demme was an American director, producer, and screenwriter.",
+              "Birth" : "1944", "Death" : "2017" }, "ImagePath" :
+              "silenceofthelambs.png", "Featured" : true, "Actors" : [ "Kasi
+              Lemmings" ] }
+            </p>
+          </td>
         </tr>
         <tr>
           <td>Get movie by genre</td>
           <td>/movies/genres/:Name</td>
           <td>GET</td>
           <td>None</td>
-          <td> A JSON object containing information on any movie with the
-            searched genre</td>
+          <td>
+            A JSON object containing information on any movie with the searched
+            genre. Example:
+            <p style="color: blue;">
+              { "_id" : ObjectId("5f35abf0cdb8ac3f7dc2cef7"), "Title" :
+              "Notebook", "Description" : "A poor yet passionate young man falls
+              in love with a rich young woman, giving her a sense of freedom,
+              but they are soon separated because of their social differences.",
+              "Genre" : { "Name" : "Romance", "Description" : "Romance film can
+              be defined as a genre wherein the plot revolves around the love
+              between two protagonists. This genre usually has a theme that
+              explores an issue within love, including but not limited to: love
+              at first sight, forbidden love, love triangles, and sacrificial
+              love." }, "Director" : { "Name" : "Nick Cassevetes", "Bio" :
+              "Nicholas David Rowland Cassavetes is an American actor, director,
+              and writer. He was born in New York City, the son of actress Gena
+              Rowlands and Greek-American actor and film director John
+              Cassavetes.", "Birth" : "1959-05-21" }, "ImagePath" :
+              "https://m.media-amazon.com/images/M/MV5BMTk3OTM5Njg5M15BMl5BanBnXkFtZTYwMzA0ODI3._V1_.jpg",
+              "Featured" : true, "Actors" : [ "Ryan Gosling", "Rachel McAdams" ]
+              }
+            </p>
+          </td>
         </tr>
         <tr>
-          <td>Add user</td>
+          <td>Add new user</td>
           <td>/users</td>
           <td>POST</td>
           <td>None</td>
-          <td>A status message saying, "User Added!"</td>
+          <td>
+            A JSON object holding data about the user to add. Example:
+            <p style="color: blue;">
+              { ID : Integer, Username : String, Password : String, Email :
+              String, Birthday : Date }
+            </p>
+          </td>
+          <td>
+            A JSON object holding data about the user that was just added,
+            including an ID. Example:
+            <p style="color: blue;">
+              { "_id" : ObjectId("5f392d26cdb8ac3f7dc2cf06"), "Username" : "Lex
+              Rodgers", "Password" : "1213", "Email" : "lex_attack@yahoo.com",
+              "Birthday" : "08/24/1989", "FavoriteMovies" : [] }
+            </p>
+          </td>
         </tr>
         <tr>
           <td>Update user information</td>
           <td>/users/:Username</td>
           <td>PUT</td>
           <td>None</td>
-          <td> A JSON object with updated User information</td>
+          <td>
+            Example:
+            <p style="color: blue;">
+              { "_id" : ObjectId("5f392d26cdb8ac3f7dc2cf06"), "Username" : "Lex
+              Rodgers", "Password" : "1213", "Email" : "lex_attack@yahoo.com",
+              "Birthday" : "08/24/1989", "FavoriteMovies" : [] }
+            </p>
+          </td>
         </tr>
         <tr>
-          <td>Allow users to add movies to "favorites"</td>
-          <td>users/:Username/favorites</td>
+          <td>Add movies to user's list of favorites</td>
+          <td>users/:Username/movies/:MovieID</td>
           <td>POST</td>
           <td>None</td>
-          <td>A status message saying, "Succesfully added movie to favorites!"</td>
+          <td>
+            A JSON object containing data about the movie added. Example:
+            <p style="color: blue;">
+              { "_id" : ObjectId("5f392cb3cdb8ac3f7dc2cf04"), "Username" :
+              "Natasha Keating", "Password" : "5678", "Email" :
+              "natasha_keating@yahoo.com", "Birthday" : "11/29/1993",
+              "FavoriteMovies" : [ ObjectId("5f392adbcdb8ac3f7dc2cefc") ] }
+            </p>
+          </td>
         </tr>
         <tr>
-          <td>Allow users to remove movie from favorites</td>
-          <td>users/:Username/favorites</td>
+          <td>Remove movie from user's favorites</td>
+          <td>users/:Username/movies/:MovieID</td>
           <td>Delete</td>
           <td>None</td>
-          <td>A status message saying, "Succesfully deleted movie from
-            favorites."</td>
+          <td>
+            A JSON object containing data about the updated user's favorites.
+            Example:
+            <p style="color: blue;">
+              { "_id" : ObjectId("5f392cb3cdb8ac3f7dc2cf04"), "Username" :
+              "Natasha Keating", "Password" : "5678", "Email" :
+              "natasha_keating@yahoo.com", "Birthday" : "11/29/1993",
+              "FavoriteMovies" : [] }
+            </p>
+          </td>
         </tr>
         <tr>
           <td>Allow users to deregister</td>
-          <td>users/:Email</td>
+          <td>users/:Username</td>
           <td>Delete</td>
           <td>None</td>
           <td>A status message saying, "User deleted."</td>
