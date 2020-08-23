@@ -164,7 +164,7 @@ app.put("/users/:Username", (req, res) => {
 
 // Delete a user by username
 app.delete("/users/:Username", function (req, res) {
-  Users.findByIdAndRemove({ Username: req.params.Username })
+  Users.findOneAndRemove({ Username: req.params.Username })
     .then(function (user) {
       if (!user) {
         res.status(400).send(req.params.Username + " was not found.");
@@ -174,7 +174,7 @@ app.delete("/users/:Username", function (req, res) {
     })
     .catch(function (err) {
       console.error(err);
-      res.status(500).send("Eroor: " + err);
+      res.status(500).send("Error: " + err);
     });
 });
 
