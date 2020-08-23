@@ -18,6 +18,7 @@ mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 app.use(express.static("public"));
 //Morgan middleware function to log all requests
 app.use(morgan("common"));
+app.use(bodyParser.json());
 
 //List of all movies
 app.get("/", function (req, res) {
