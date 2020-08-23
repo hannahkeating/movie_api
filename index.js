@@ -3,6 +3,7 @@
 const express = require("express"),
   morgan = require("morgan");
 const app = express();
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 
