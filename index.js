@@ -21,11 +21,19 @@ app.use(express.static("public"));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 
+let auth = require("./auth")(app);
+const passport = require("passport");
+require("./passport");
+
 //List of all movies
 app.get("/", function (req, res) {
   res.send("Welcome to Flix Fix!");
 });
-app.get("/movies", function (req, res) {
+
+app.get("/movies", passport.authenticate("jwt", { session: false }), function (
+  req,
+  res
+) {
   Movies.find()
     .then(function (movies) {
       res.status(201).json(movies);
