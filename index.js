@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 const Models = require("./models.js");
 const passport = require("passport");
 require("./passport");
+const cors = require("cors");
+const { check, validationResult } = require("express-validator");
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -22,8 +24,27 @@ app.use(express.static("public"));
 //Morgan middleware function to log all requests
 app.use(morgan("common"));
 app.use(bodyParser.json());
+app.use(cors());
 
-let auth = require("./auth")(app);
+var auth = require("./auth")(app);
+
+var allowedOrigins = ["http://localhost:8080", "http://localhost:1234"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) === -1) {
+        var message =
+          "The CORS policy for this application doesn not allow access from " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 //List of all movies
 app.get("/", function (req, res) {
@@ -133,34 +154,53 @@ app.get(
   Email: String,
   Birthdate: Date
 }*/
-app.post("/users", passport.authenticate("jwt", { session: false }), function (
-  req,
-  res
-) {
-  Users.findOne({ Username: req.body.Username })
-    .then(function (user) {
-      if (user) {
-        return res.status(400).send(req.body.Username + "already exists");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        })
-          .then(function (user) {
-            res.status(201).json(user);
+app.post(
+  "/users",
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters - not allowed."
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email doesn not appear to be valid").isEmail(),
+  ],
+  function (req, res) {
+    // check the validation object for errors
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    var hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username }) //Search to see if a user with the requested username already exists
+      .then(function (user) {
+        if (user) {
+          //If the user is found, send a response that it already exists
+          return res.status(400).send(req.body.Username + " already exists");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
           })
-          .catch(function (error) {
-            res.status(500).send("Error: " + error);
-          });
-      }
-    })
-    .catch(function (error) {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
-});
+            .then(function (user) {
+              res.status(201).json(user);
+            })
+            .catch(function (error) {
+              console.error(error);
+              res.status(500).send("Error: " + error);
+            });
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
 
 //Update a user's info by username
 /*We'll expect JSON in this format
@@ -258,6 +298,7 @@ app.delete(
   }
 );
 
-app.listen(3000, function () {
-  console.log("Your app is listening on port 3000.");
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });
