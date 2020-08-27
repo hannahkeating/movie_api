@@ -1,0 +1,4 @@
+{"_id":{"$oid":"5f35a9b6cdb8ac3f7dc2cef6"},"Username":"Hannah Keating","Password":"1234","Email":"h.monet1104@gmail.com","Birthday":"11/04/1990","FavoriteMovies":[{"$oid":"5f35a819cdb8ac3f7dc2cef5"}]}
+{"_id":{"$oid":"5f392cb3cdb8ac3f7dc2cf04"},"Username":"Natasha Keating","Password":"5678","Email":"natasha_keating@yahoo.com","Birthday":"11/29/1993","FavoriteMovies":[{"$oid":"5f392adbcdb8ac3f7dc2cefc"}]}
+{"_id":{"$oid":"5f392cf1cdb8ac3f7dc2cf05"},"Username":"Sean Keating","Password":"9101","Email":"sean_keating@yahoo.com","Birthday":"08/13/1995","FavoriteMovies":[{"$oid":"5f35a559cdb8ac3f7dc2cef3"},{"$oid":"5f35a559cdb8ac3f7dc2cef3"}]}
+{"_id":{"$oid":"5f392d26cdb8ac3f7dc2cf06"},"Username":"Lex Rodgers","Password":"1213","Email":"lex_attack@yahoo.com","Birthday":"08/24/1989","FavoriteMovies":[{"$oid":"5f392b3ecdb8ac3f7dc2cf01"}]}
