@@ -188,6 +188,8 @@ db.users.update(
 db.users.remove({ "Username": "Kristi Buckley" })
 mongoexport -d my_flix_db -c movies -o my_flix.json
 
-/Library/PostgreSQL/12/bin/pg_dump --file "/Users/hannahcook/FlixFixDB" --host "localhost" --port "5432" --username "postgres" --password "Michicant1104" --verbose --format=p --section=pre-data --section=data --section=post-data "FlixFixDB"
-sudo chmod 777 /Users/hannahcook/FlixFixDB
+mongoimport --uri mongodb+srv://monet_keating:Michicant1104@hmkdb.jbtqb.gcp.mongodb.net/myFlixDB --collection users --type json --file myFlixUsers.json
 
+sudo mongo "mongodb+srv://hmkdb.jbtqb.gcp.mongodb.net/myFlixDB" --username monet_keating
+mongodb+srv://monet_keating:Michicant1104@hmkdb.jbtqb.gcp.mongodb.net/myFLixDB?retryWrites=true&w=majority
+CONNECTION_URI
