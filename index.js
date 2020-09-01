@@ -56,10 +56,7 @@ app.get("/", function (req, res) {
   res.send("Welcome to Flix Fix!");
 });
 
-app.get("/movies", passport.authenticate("jwt", { session: false }), function (
-  req,
-  res
-) {
+app.get("/movies", function (req, res) {
   Movies.find()
     .then(function (movies) {
       res.status(201).json(movies);
@@ -73,7 +70,7 @@ app.get("/movies", passport.authenticate("jwt", { session: false }), function (
 //get information about a movie by title
 app.get(
   "/movies/:Title",
-  passport.authenticate("jwt", { session: false }),
+
   function (req, res) {
     Movies.findOne({ Title: req.params.Title })
       .then(function (movies) {
@@ -89,7 +86,7 @@ app.get(
 //get data about a director
 app.get(
   "/movies/directors/:Name",
-  passport.authenticate("jwt", { session: false }),
+
   function (req, res) {
     Movies.findOne({ "Director.Name": req.params.Name })
       .then(function (movies) {
@@ -105,7 +102,7 @@ app.get(
 //get data about a genre by name
 app.get(
   "/movies/genres/:Name",
-  passport.authenticate("jwt", { session: false }),
+
   function (req, res) {
     Movies.findOne({ "Genre.Name": req.params.Name })
       .then(function (movies) {
@@ -120,10 +117,7 @@ app.get(
 
 //user endpoints
 //get a list of users
-app.get("/users", passport.authenticate("jwt", { session: false }), function (
-  req,
-  res
-) {
+app.get("/users", function (req, res) {
   Users.find()
     .then(function (users) {
       res.status(201).json(users);
@@ -137,7 +131,7 @@ app.get("/users", passport.authenticate("jwt", { session: false }), function (
 //get a user by username
 app.get(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
+
   function (req, res) {
     Users.findOne({ Username: req.params.Username })
       .then(function (user) {
@@ -217,7 +211,7 @@ app.post(
 }*/
 app.put(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
+
   (req, res) => {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -244,7 +238,7 @@ app.put(
 // Delete a user by username
 app.delete(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
+
   function (req, res) {
     Users.findOneAndRemove({ Username: req.params.Username })
       .then(function (user) {
@@ -264,7 +258,7 @@ app.delete(
 // Add a movie to a user's list of favorites
 app.post(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
+
   function (req, res) {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -285,7 +279,7 @@ app.post(
 //delete movie from user's list of favorites
 app.delete(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
+
   function (req, res) {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
