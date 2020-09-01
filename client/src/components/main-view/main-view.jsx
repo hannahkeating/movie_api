@@ -1,29 +1,22 @@
 import React from "react";
 import axios from "axios";
 
-class MainView extends React.Component {
-  constructor() {
-    //Call the superclass constructor
-    // so react can initialize it
-    super();
-
-    //Initialize the state to an empty object so we can destructure it later
-    this.state = {};
-  }
-
-  //This overrides the render() method of the superclass
-  //No need to call the super() though, as it does nothing by defualt
-
-  render() {
-    return <div className="main-view"></div>;
-  }
-}
+import { MovieCard } from "../movie-card/movie-card";
+import { MovieView } from "../movie-view/movie-view";
 
 export class MainView extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      movies: null,
+      selectedMovie: null,
+    };
+  }
   // One of the "hooks" available in a React Component
   componentDidMount() {
     axios
-      .get("<my-api-endpoint/movies>")
+      .get("https://flix-fix.herokuapp.com/movies/movies>")
       .then((response) => {
         // Assign the result to the state
         this.setState({
@@ -35,21 +28,31 @@ export class MainView extends React.Component {
       });
   }
 
-  render() {
-    // If the state isn't initialized, this will throw on runtime
-    // before the data is initially loaded
-    const { movies } = this.state;
+  onMovieClick(movie) {
+    this.setState({
+      selectedMovie: movie,
+    });
+  }
 
-    // Before the movies have been loaded
+  render() {
+    const { movies, selectedMovie } = this.state;
+
+    //Before the movies have been loaded
     if (!movies) return <div className="main-view" />;
 
     return (
       <div className="main-view">
-        {movies.map((movie) => (
-          <div className="movie-card" key={movie._id}>
-            {movie.Title}
-          </div>
-        ))}
+        {selectedMovie ? (
+          <MovieView movie={selectedMovie} />
+        ) : (
+          movies.map((movie) => (
+            <MovieCard
+              key={movie._id}
+              movie={movie}
+              onClick={(movie) => this.onMovieClick(movie)}
+            />
+          ))
+        )}
       </div>
     );
   }
