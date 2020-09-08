@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Form, Container, Button } from "react-bootstrap";
-import "./registration-view.scss";
+import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ export function RegistrationView() {
     };
 
     axios
-      .post("https://roberto-api.herokuapp.com/users", createdUser)
+      .post("https://flix-fix.herokuapp.com/users", createdUser)
       .then((response) => {
         console.log(response);
         console.log(response.data);
@@ -92,3 +92,17 @@ export function RegistrationView() {
     </Container>
   );
 }
+// MovieView.propTypes = {
+//   movie: PropTypes.shape({
+//     Title: PropTypes.string.isRequired,
+//     Description: PropTypes.string.isRequired,
+//     ImagePath: PropTypes.string.isRequired,
+//     Genre: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//     }),
+//     Director: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//     }),
+//   }).isRequired,
+//   onClick: PropTypes.func.isRequired,
+// };
