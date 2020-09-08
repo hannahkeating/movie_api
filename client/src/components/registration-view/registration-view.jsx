@@ -1,49 +1,55 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { Form, Container, Button } from "react-bootstrap";
+import "./registration-view.scss";
 
-export function RegistrationView(props) {
-  const [email, setemail] = useState("");
-  const [dob, setdob] = useState("");
+import { Link } from "react-router-dom";
+
+export function RegistrationView() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [dob, setDob] = useState("");
 
-  const handleRegister = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
+    const createdUser = {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: dob,
+    };
+
     axios
-      .post("https://flix-fix.herokuapp.com/users", {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: dob,
-      })
+      .post("https://roberto-api.herokuapp.com/users", createdUser)
       .then((response) => {
-        const data = response.data;
-        console.log(data);
-        window.open("/", "_self");
+        console.log(response);
+        console.log(response.data);
+        alert("User created successfully");
+        window.open("/client", "_self");
       })
       .catch((e) => {
-        console.log("error registering the user");
+        console.log(e.response);
+        alert("Error processing request");
       });
   };
 
   return (
-    <Container className="registrationContainer">
-      <h1>Register User</h1>
+    <Container>
       <br />
       <br />
-      <Form>
+      <Form style={{ width: "32rem", margin: "auto", textAlign: "center" }}>
         <Form.Group controlId="formBasicUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Username"
-            value={Username}
+            placeholder="Enter username"
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
+
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -53,28 +59,35 @@ export function RegistrationView(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
+
         <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter email"
             value={email}
-            onChange={(e) => setemail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicDob">
-          <Form.Label>Date of Birth</Form.Label>
-          <Form.Control
-            type="date"
-            placeholder="00/00/0000"
-            value={dob}
-            onChange={(e) => setdob(e.target.value)}
+            placeholder="Enter email"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit" onClick={handleRegister}>
-          Register
+        <Form.Group controlId="formBasicDate">
+          <Form.Label>Date of Birth</Form.Label>
+          <Form.Control
+            type="date"
+            value={dob}
+            placeholder="12/31/1986"
+            onChange={(e) => setDob(e.target.value)}
+          />
+        </Form.Group>
+
+        <Button variant="dark" type="submit" onClick={handleSubmit}>
+          Submit
         </Button>
+        <Link to={`/client`}>
+          <Button variant="dark link" type="submit">
+            Cancel
+          </Button>
+        </Link>
       </Form>
     </Container>
   );
