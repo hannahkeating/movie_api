@@ -1,19 +1,19 @@
-import React from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 
 export function LoginView(props) {
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /* Send a request to the server for authentication*/
+    /* Send a request to the server for authentication */
     axios
       .post("https://flix-fix.herokuapp.com/login", {
-        username: username,
-        password: password,
+        Username: username,
+        Password: password,
       })
       .then((response) => {
         const data = response.data;

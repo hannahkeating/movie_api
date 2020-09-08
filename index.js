@@ -56,19 +56,19 @@ app.get("/", function (req, res) {
   res.send("Welcome to Flix Fix!");
 });
 
-app.get(
-  "/movies",
-  /*passport.authenticate("jwt", { session: false }), */ function (req, res) {
-    Movies.find()
-      .then(function (movies) {
-        res.status(201).json(movies);
-      })
-      .catch(function (err) {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies", passport.authenticate("jwt", { session: false }), function (
+  req,
+  res
+) {
+  Movies.find()
+    .then(function (movies) {
+      res.status(201).json(movies);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 //get information about a movie by title
 app.get(
