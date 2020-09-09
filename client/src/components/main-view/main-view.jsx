@@ -73,7 +73,7 @@ export class MainView extends React.Component {
     let { user } = this.state;
 
     return (
-      <Router>
+      <Router basename="/client">
         <div className="main-view">
           <Route
             exact
