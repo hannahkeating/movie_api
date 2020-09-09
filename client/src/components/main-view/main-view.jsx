@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { setMovies } from "../../actions/actions";
 
-import MoviesList from "../movies-list/movies-list";
+//import MoviesList from "../movies-list/movies-list";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -83,6 +83,7 @@ export class MainView extends React.Component {
                 return (
                   <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
                 );
+              //return <MoviesList movies={movies} />;
               return movies.map((m) => <MovieCard key={m._id} movie={m} />);
             }}
           />
