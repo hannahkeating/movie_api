@@ -10,6 +10,7 @@ const passport = require("passport");
 require("./passport");
 const cors = require("cors");
 const { check, validationResult } = require("express-validator");
+const path = require("path");
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -26,6 +27,13 @@ mongoose.connect(process.env.CONNECTION_URI, {
 //express.static
 //"documentation.html" file from public folder
 app.use(express.static("public"));
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+
+// all routes to the React client
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/dist", "index.html"));
+});
+
 //Morgan middleware function to log all requests
 app.use(morgan("common"));
 app.use(bodyParser.json());

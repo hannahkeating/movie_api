@@ -2,8 +2,13 @@
 import React from "react";
 import axios from "axios";
 
+import { connect } from "react-redux";
+
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
+import { setMovies } from "../../actions/actions";
+
+import MoviesList from "../movies-list/movies-list";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -17,25 +22,8 @@ export class MainView extends React.Component {
     super();
 
     this.state = {
-      movies: [],
       user: null,
     };
-  }
-
-  getMovies(token) {
-    axios
-      .get("https://flix-fix.herokuapp.com/movies", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   }
 
   componentDidMount() {
@@ -48,8 +36,20 @@ export class MainView extends React.Component {
     }
   }
 
+  getMovies(token) {
+    axios
+      .get("https://flix-fix.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.props.setMovies(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   onLoggedIn(authData) {
-    console.log(authData);
     this.setState({
       user: authData.user.Username,
     });
@@ -69,7 +69,8 @@ export class MainView extends React.Component {
   // }
 
   render() {
-    const { movies, user } = this.state;
+    let { movies } = this.props;
+    let { user } = this.state;
 
     return (
       <Router>
@@ -133,3 +134,8 @@ export class MainView extends React.Component {
     );
   }
 }
+let mapStateToProps = (state) => {
+  return { movies: state.movies };
+};
+
+export default connect(mapStateToProps, { setMovies })(MainView);
