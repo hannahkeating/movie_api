@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
 
 export class MovieView extends React.Component {
   constructor() {
@@ -10,41 +15,100 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+  addToFavourites(movie) {
+    /* Send a request to the server for authentication */
+    const url =
+      "https://flix-fix.herokuapp.com/users/" +
+      localStorage.getItem("user") +
+      "/movies/" +
+      movie; // 'https://flix-fix.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+    axios
+      .post(
+        url,
+        {},
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") }, //  `Bearer ${localStorage.getItem('token')}`
+        }
+      )
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        // Send data to prop
+        alert("Movie added to favourites");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     const { movie } = this.props;
 
     if (!movie) return null;
 
     return (
-      <div className="movie-view">
-        <img className="movie-poster" src={movie.ImagePath} />
-        <div className="movie-title">
-          <span className="label">Title: </span>
-          <span className="value">{movie.Title}</span>
-        </div>
-        <div className="movie-description">
-          <span className="label">Description: </span>
-          <span className="value">{movie.Description}</span>
-        </div>
-        <div className="movie-genre">
-          <span className="label">Genre: </span>
-          <span className="value">{movie.Genre.Name}</span>
-          <Link to={`/genres/${movie.Genre.Name}`}>
-            <Button variant="link">Genre</Button>
-          </Link>
-        </div>
-        <div className="movie-director">
-          <span className="label">Director: </span>
-          <span className="value">{movie.Director.Name}</span>
-          <Link to={`/directors/${movie.Director.Name}`}>
-            <Button variant="link">Director</Button>
-          </Link>
-        </div>
-        <div className="movie-director-bio">
-          <span className="label">Bio: </span>
-          <span className="value">{movie.Director.Bio}</span>
-        </div>
-      </div>
+      <Container className="wrapper container-fluid align-items-center">
+        <Row>
+          <Col className="col-3" />
+          <Col className="container-fluid col-6">
+            <Card className="movie-view" bg="warning" text="dark">
+              <Card.Img variant="top" src={movie.ImagePath} />
+              <Card.ImgOverlay className="align-middle">
+                <Card.Title>
+                  <Button
+                    variant="light"
+                    onClick={() => this.addToFavourites(movie._id)}
+                  >
+                    Add to Favourites
+                  </Button>
+                </Card.Title>
+              </Card.ImgOverlay>
+              <Card.Body>
+                <Card.Title>{movie.Title}</Card.Title>
+                <Card.Text>
+                  <div className="movie-description ">
+                    <span className="label">Description: </span>
+                    <span className="value">{movie.Description}</span>
+                  </div>
+                  <div className="movie-genre ">
+                    <span className="label">Genre:</span>
+                    <Link
+                      className="position-relative"
+                      to={`/genres/${movie.Genre.Name}`}
+                    >
+                      <Button variant="link">{movie.Genre.Name}</Button>
+                    </Link>
+                  </div>
+                  <div className="movie-director ">
+                    <span className="label">Director:</span>
+                    <Link
+                      className="position-relative"
+                      to={`/directors/${movie.Director.Name}`}
+                    >
+                      <Button variant="link">{movie.Director.Name}</Button>
+                    </Link>
+                  </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="col-3" />
+        </Row>
+      </Container>
     );
   }
 }
+
+MovieView.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+    }),
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+};

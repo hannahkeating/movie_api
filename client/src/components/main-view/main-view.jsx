@@ -7,6 +7,9 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { setMovies } from "../../actions/actions";
+import { Navbar, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 //import MoviesList from "../movies-list/movies-list";
 import { MovieCard } from "../movie-card/movie-card";
@@ -16,6 +19,7 @@ import { RegistrationView } from "../registration-view/registration-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
+import { UpdateProfile } from "../update-profile/update-profile";
 
 export class MainView extends React.Component {
   constructor() {
@@ -59,14 +63,14 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
-  //   onLoggedOut(authData) {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("user");
-  //   this.setState({
-  //     user: null,
-  //   });
-  //   window.open("/client", "_self");
-  // }
+  onLoggedOut(authData) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.setState({
+      user: null,
+    });
+    window.open("/client", "_self");
+  }
 
   render() {
     let { movies } = this.props;
@@ -75,6 +79,51 @@ export class MainView extends React.Component {
     return (
       <Router basename="/client">
         <div className="main-view">
+          <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
+            <Navbar.Brand className="navbar-brand">
+              <Link to={`/`}>Flix-Fix</Link>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse
+              className="justify-content-end"
+              id="basic-navbar-nav"
+            >
+              {!user ? (
+                <ul>
+                  <Link to={`/`}>
+                    <Button variant="link">Login</Button>
+                  </Link>
+                  <Link to={`/register`}>
+                    <Button variant="link">Register</Button>
+                  </Link>
+                </ul>
+              ) : (
+                <ul>
+                  <Link to={`/`}>
+                    <Button variant="link" onClick={() => this.onloggedOut()}>
+                      Log out
+                    </Button>
+                  </Link>
+                  <Link to={`/user`}>
+                    <Button variant="link">Account</Button>
+                  </Link>
+                  <Link to={`/`}>
+                    <Button variant="link">Movies</Button>
+                  </Link>
+                  <Link to={`/about`}>
+                    <Button variant="link">About</Button>
+                  </Link>
+                  <Link to={`/contact`}>
+                    <Button variant="link">Contact</Button>
+                  </Link>
+                </ul>
+              )}
+            </Navbar.Collapse>
+          </Navbar>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
           <Route
             exact
             path="/"
